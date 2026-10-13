@@ -71,21 +71,54 @@
 
 ## 装法
 
-### 作为 Agent Skill 用（Claude Code / Codex / Cursor 等）
+### 给别人的 Agent 用（Claude Code / WorkBuddy / Codex / Cursor…）
+
+Skill 的本质就是**一个含 `SKILL.md` 的文件夹**。Agent 启动时会读它的 frontmatter
+（`name` + `description`）来判断什么时候该调用它，然后照着里面的说明去跑 `scripts/`。
+所以装法就一句话：**把整个仓库放进那个 Agent 的 skills 目录。**
+
+| Agent | 放进哪里 |
+| --- | --- |
+| Claude Code | `~/.claude/skills/cyber-almanac`（只给某个项目用就放 `<项目>/.claude/skills/`） |
+| WorkBuddy | `~/.workbuddy/skills/cyber-almanac` |
+| 其它支持 Agent Skills 的客户端 | 见各自文档里写的 skills 目录 |
 
 ```bash
+# Claude Code（全局，所有项目都能用）
 git clone https://github.com/congJohn/cyber-almanac.git ~/.claude/skills/cyber-almanac
+
+# WorkBuddy
+git clone https://github.com/congJohn/cyber-almanac.git ~/.workbuddy/skills/cyber-almanac
 ```
 
-之后直接问「今天适合上线吗」，它会自己跑。
+装完直接问就行，它会自己跑脚本、自己组织答案：
+
+> 「今天适合上线吗」「今天什么日子」「帮我挑个这周开会的日子」「求个签」
+
+**用 skills CLI 装**（[skills.sh](https://skills.sh)，Vercel 维护的目录）：
+
+```bash
+npx skills add congJohn/cyber-almanac
+```
+
+**不用 git**：仓库右上角 `Code → Download ZIP`，解压后把整个文件夹放进上表对应目录。
+
+**连不上 github.com 时**（国内常见）：用 [Gitee 的仓库导入](https://gitee.com/projects/import/url)
+把本仓库一键镜像过去，再 clone 那份镜像 —— 公开仓库导入不需要任何授权。
 
 ### 当普通命令行工具用
 
-不需要安装，`almanac.py` 是单文件，纯标准库，Python 3.9+：
+不需要安装，`almanac.py` 是单文件、纯标准库、Python 3.9+：
 
 ```bash
 python3 scripts/almanac.py
 ```
+
+### 不想碰命令行
+
+打开 [`docs/almanac-query.html`](docs/almanac-query.html) —— 一个**单文件网页**，
+内置 1900–2100 全部 73,384 天。双击就能用，有日期选择器，可以随便挑一天看，
+不联网、不装东西。想发人也直接发这一个文件。
 
 ---
 
@@ -281,6 +314,16 @@ python3 scripts/almanac.py --week             # the week ahead
 python3 scripts/almanac.py --html today.html  # shareable page
 python3 scripts/almanac.py --json             # machine readable
 ```
+
+**As an agent skill** — drop the whole repo into your agent's skills folder and ask away:
+
+```bash
+git clone https://github.com/congJohn/cyber-almanac.git ~/.claude/skills/cyber-almanac   # Claude Code
+git clone https://github.com/congJohn/cyber-almanac.git ~/.workbuddy/skills/cyber-almanac  # WorkBuddy
+```
+
+**Prefer clicking over typing?** Open [`docs/almanac-query.html`](docs/almanac-query.html) —
+a single file with all 73,384 days (1900–2100) baked in. Pick any date. Works offline.
 
 MIT.
 
