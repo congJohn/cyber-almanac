@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+.venv/
+venv/
+
+# 本地生成的黄历页面（examples/ 里的示例除外）
+/*.html
+/*.png
